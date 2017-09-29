@@ -7,7 +7,7 @@ module Data.List.EitherFunctions
   , spanRight
   ) where
 
-import Data.Either (Either (..), either)
+import Data.Either (Either (..))
 import Data.List (map)
 import Data.Maybe (Maybe (..), maybe)
 
