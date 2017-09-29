@@ -1,14 +1,13 @@
-name: foo
+name: either-list-functions
 version: 0.0.0.1
-github: chris-martin/foo
+github: chris-martin/either-list-functions
 
-synopsis: |
-  ...
+synopsis: Functions involving lists of Either
 
 description: |
-  ...
+  Functions involving lists of Either
 
-category: ...
+category: Data
 
 author:     Chris Martin <ch.martin@gmail.com>
 maintainer: Chris Martin <ch.martin@gmail.com>
@@ -22,7 +21,7 @@ ghc-options:
 library:
   source-dirs: src
   exposed-modules:
-    - Foo
+    - Data.List.EitherFunctions
 
 dependencies:
   - base
@@ -35,14 +34,5 @@ tests:
     ghc-options:
       - -threaded
     dependencies:
-      - foo
+      - either-list-functions
       - doctest
-
-  hedgehog:
-    source-dirs: test
-    main: hedgehog.hs
-    ghc-options:
-      - -threaded
-    dependencies:
-      - foo
-      - hedgehog
