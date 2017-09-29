@@ -24,7 +24,7 @@ library:
     - Data.List.EitherFunctions
 
 dependencies:
-  - base
+  - base >= 4.9 && < 4.10
 
 tests:
 
