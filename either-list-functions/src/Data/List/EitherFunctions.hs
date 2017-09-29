@@ -1,4 +1,5 @@
-{-# LANGUAGE NoImplicitPrelude, LambdaCase #-}
+{-# LANGUAGE LambdaCase        #-}
+{-# LANGUAGE NoImplicitPrelude #-}
 
 module Data.List.EitherFunctions
   ( partlyMap
@@ -8,8 +9,8 @@ module Data.List.EitherFunctions
   ) where
 
 import Data.Either (Either (..))
-import Data.List (map)
-import Data.Maybe (Maybe (..), maybe)
+import Data.List   (map)
+import Data.Maybe  (Maybe (..), maybe)
 
 {- |
 
