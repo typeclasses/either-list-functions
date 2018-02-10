@@ -1,5 +1,5 @@
 name: either-list-functions
-version: 0.0.0.1
+version: 0.0.0.2
 github: chris-martin/either-list-functions
 
 synopsis: Functions involving lists of Either
@@ -24,7 +24,7 @@ library:
     - Data.List.EitherFunctions
 
 dependencies:
-  - base >= 4.9 && < 4.10
+  - base >= 4.9 && < 4.11
 
 tests:
 
