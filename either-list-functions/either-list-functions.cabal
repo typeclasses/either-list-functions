@@ -1,0 +1,50 @@
+cabal-version: >= 1.10
+
+-- This file has been generated from package.yaml by hpack version 0.29.7.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: f1c689eedb32f1a6e230e341b7b37aeec416be068c057cc29592c9c3dde5f419
+
+name:           either-list-functions
+version:        0.0.0.2
+synopsis:       Functions involving lists of Either
+description:    Functions involving lists of Either
+category:       Data
+homepage:       https://github.com/chris-martin/either-list-functions#readme
+bug-reports:    https://github.com/chris-martin/either-list-functions/issues
+author:         Chris Martin <ch.martin@gmail.com>
+maintainer:     Chris Martin <ch.martin@gmail.com>
+license:        Apache-2.0
+license-file:   license.txt
+build-type:     Simple
+
+source-repository head
+  type: git
+  location: https://github.com/chris-martin/either-list-functions
+
+library
+  hs-source-dirs:
+      src
+  ghc-options: -Wall
+  build-depends:
+      base >=4.9 && <4.12
+  exposed-modules:
+      Data.List.EitherFunctions
+  other-modules:
+      Paths_either_list_functions
+  default-language: Haskell2010
+
+test-suite doctest
+  type: exitcode-stdio-1.0
+  main-is: doctest.hs
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -threaded
+  build-depends:
+      base >=4.9 && <4.12
+    , doctest
+    , either-list-functions
+  other-modules:
+      Paths_either_list_functions
+  default-language: Haskell2010
