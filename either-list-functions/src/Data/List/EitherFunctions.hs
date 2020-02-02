@@ -5,6 +5,7 @@ module Data.List.EitherFunctions
   , groupEither
   , spanLeft
   , spanRight
+  , partition
   ) where
 
 import Data.Either (Either (..))
@@ -65,3 +66,15 @@ spanRight [] = ([], [])
 spanRight ((Right x) : xs) = let (ys, zs) = spanRight xs
                              in  (x : ys, zs)
 spanRight xs = ([], xs)
+
+{- |
+
+>>> partition [Left 1, Left 2, Right 'a', Left 3, Right 'b', Right 'c']
+([1,2,3],"abc")
+
+-}
+partition :: [Either a b] -> ([a], [b])
+partition [] = ([], [])
+partition (x : xs) = let (as, bs) = partition xs
+                     in  case x of Left a  -> (a : as, bs)
+                                   Right b -> (as, b : bs)
