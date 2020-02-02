@@ -30,7 +30,7 @@ library
   ghc-options: -Wall
 
   build-depends:
-      base >=4.9 && <4.12
+      base >=4.9 && <4.13
 
   exposed-modules:
       Data.List.EitherFunctions
@@ -43,6 +43,6 @@ test-suite doctest
   hs-source-dirs: test
 
   build-depends:
-      base >=4.9 && <4.12
+      base >=4.9 && <4.13
     , doctest
     , either-list-functions
