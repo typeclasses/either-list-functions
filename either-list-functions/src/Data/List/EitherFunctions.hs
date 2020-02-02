@@ -1,4 +1,3 @@
-{-# LANGUAGE LambdaCase        #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 
 module Data.List.EitherFunctions
