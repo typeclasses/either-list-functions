@@ -17,6 +17,9 @@ license-file: license.txt
 build-type: Simple
 cabal-version: >= 1.10
 
+extra-source-files:
+  changelog.txt
+
 source-repository head
   type: git
   location: https://github.com/chris-martin/either-list-functions
