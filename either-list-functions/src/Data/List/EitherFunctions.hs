@@ -8,8 +8,9 @@ module Data.List.EitherFunctions
   ) where
 
 import Data.Either (Either (..))
-import Data.List   (map)
 import Data.Maybe  (Maybe (..), maybe)
+
+import qualified Data.List as List
 
 {- |
 
@@ -20,7 +21,7 @@ import Data.Maybe  (Maybe (..), maybe)
 
 -}
 partlyMap :: (a -> Maybe b) -> [a] -> [Either a b]
-partlyMap f = map (\x -> maybe (Left x) Right (f x))
+partlyMap f = List.map (\x -> maybe (Left x) Right (f x))
 
 {- |
 
