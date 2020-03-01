@@ -1,3 +1,6 @@
+unreleased
+  - Added spanLeft' and spanRight' functions
+
 0.0.2.0
   - Supports base-4.12
   - Added 'partition' function

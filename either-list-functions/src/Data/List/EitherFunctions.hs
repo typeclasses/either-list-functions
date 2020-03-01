@@ -3,8 +3,8 @@
 module Data.List.EitherFunctions
   ( partlyMap
   , groupEither
-  , spanLeft
-  , spanRight
+  , spanLeft, spanLeft'
+  , spanRight, spanRight'
   , partition
   ) where
 
@@ -54,6 +54,24 @@ spanLeft xs = ([], xs)
 
 {- |
 
+>>> spanLeft' [Left 1, Left 2, Right 'a', Left 3, Right 'b', Right 'c']
+([1,2],Just ('a',[Left 3,Right 'b',Right 'c']))
+
+>>> spanLeft' [Right 'a', Left 3, Right 'b', Right 'c']
+([],Just ('a',[Left 3,Right 'b',Right 'c']))
+
+>>> spanLeft' [Left 1, Left 2, Left 3]
+([1,2,3],Nothing)
+
+-}
+spanLeft' :: [Either a b] -> ([a], Maybe (b, [Either a b]))
+spanLeft' [] = ([], Nothing)
+spanLeft' ((Left x) : xs) = let (ys, zs) = spanLeft' xs
+                            in  (x : ys, zs)
+spanLeft' ((Right x) : xs) = ([], Just (x, xs))
+
+{- |
+
 >>> spanRight [Left 1, Left 2, Right 'a', Left 3, Right 'b', Right 'c']
 ("",[Left 1,Left 2,Right 'a',Left 3,Right 'b',Right 'c'])
 
@@ -66,6 +84,24 @@ spanRight [] = ([], [])
 spanRight ((Right x) : xs) = let (ys, zs) = spanRight xs
                              in  (x : ys, zs)
 spanRight xs = ([], xs)
+
+{- |
+
+>>> spanRight' [Left 1, Left 2, Right 'a', Left 3, Right 'b', Right 'c']
+("",Just (1,[Left 2,Right 'a',Left 3,Right 'b',Right 'c']))
+
+>>> spanRight' [Right 'a', Left 3, Right 'b', Right 'c']
+("a",Just (3,[Right 'b',Right 'c']))
+
+>>> spanRight' [Right 'a', Right 'b', Right 'c']
+("abc",Nothing)
+
+-}
+spanRight' :: [Either a b] -> ([b], Maybe (a, [Either a b]))
+spanRight' [] = ([], Nothing)
+spanRight' ((Right x) : xs) = let (ys, zs) = spanRight' xs
+                              in  (x : ys, zs)
+spanRight' ((Left x) : xs) = ([], Just (x, xs))
 
 {- |
 
