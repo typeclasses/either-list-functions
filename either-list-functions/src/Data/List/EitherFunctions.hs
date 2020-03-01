@@ -105,6 +105,6 @@ spanRight' = fix \r -> \case
 partition :: [Either a b] -> ([a], [b])
 
 partition = fix \r -> \case
-    []            ->  ([], [])
-    Left  a : xs  ->  (a : as, bs)  where (as, bs) = r xs
-    Right b : xs  ->  (as, b : bs)  where (as, bs) = r xs
+    []            ->  ( []     , []     )
+    Left  a : xs  ->  ( a : as , bs     )  where (as, bs) = r xs
+    Right b : xs  ->  ( as     , b : bs )  where (as, bs) = r xs
