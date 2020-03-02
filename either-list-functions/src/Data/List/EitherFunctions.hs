@@ -1,11 +1,11 @@
 {-# LANGUAGE BlockArguments, LambdaCase, NoImplicitPrelude #-}
 
-module Data.List.EitherFunctions
-  ( partlyMap
-  , groupEither
-  , spanLeft, spanLeft'
-  , spanRight, spanRight'
-  , partition
+module Data.List.EitherFunctions (
+    {- * Map       -}  partlyMap,
+    {- * Group     -}  groupEither,
+    {- * Partition -}  partition,
+    {- * Span      -}  spanLeft, spanLeft', spanRight, spanRight',
+    {- * Lead      -}  leadLeft, leadLeft', leadRight, leadRight'
   ) where
 
 import Data.Either   ( Either (..) )
@@ -33,6 +33,89 @@ groupEither = fix \r -> \case
     []            ->  []
     Left  x : xs  ->  Left  (x : ys) : r zs  where (ys, zs) = spanLeft  xs
     Right x : xs  ->  Right (x : ys) : r zs  where (ys, zs) = spanRight xs
+
+-- |
+-- >>> leadLeft [Right 'a', Right 'b', Left 1, Right 'c', Right 'd', Left 2, Right 'e', Right 'f']
+-- ("ab",[(1,"cd"),(2,"ef")])
+--
+-- >>> leadLeft [Left 1, Left 2, Right 'a', Left 3, Right 'b', Right 'c']
+-- ("",[(1,""),(2,"a"),(3,"bc")])
+
+leadLeft :: [Either a b] -> ([b], [(a, [b])])
+
+leadLeft = f
+  where
+    f xs = (unledItems, ledGroups)
+      where
+        (unledItems, ysMaybe) = spanRight' xs
+        ledGroups = case ysMaybe of
+            Nothing            ->  []
+            Just (leader, ys)  ->  r leader ys
+
+    r leader xs = firstGroup : moreGroups
+      where
+        firstGroup = (leader, followers)
+        (followers, ysMaybe) = spanRight' xs
+        moreGroups = case ysMaybe of
+            Nothing             ->  []
+            Just (leader', ys)  ->  r leader' ys
+
+-- |
+-- >>> leadLeft' 0 [Right 'a', Right 'b', Left 1, Right 'c', Right 'd', Left 2, Right 'e', Right 'f']
+-- [(0,"ab"),(1,"cd"),(2,"ef")]
+--
+-- >>> leadLeft' 0 [Left 1, Left 2, Right 'a', Left 3, Right 'b', Right 'c']
+-- [(1,""),(2,"a"),(3,"bc")]
+
+leadLeft' ::
+    a -- ^ Leader to use for the first group in case the list does not begin with a 'Left'.
+    -> [Either a b] -> [(a, [b])]
+
+leadLeft' leader xs = addMissingLeader leader (leadLeft xs)
+
+-- |
+-- >>> leadRight [Left 1, Left 2, Right 'a', Left 3, Left 4, Right 'b', Left 5, Left 6]
+-- ([1,2],[('a',[3,4]),('b',[5,6])])
+--
+-- >>> leadRight [Right 'a', Left 3, Left 4, Right 'b', Right 'c', Left 5, Left 6]
+-- ([],[('a',[3,4]),('b',[]),('c',[5,6])])
+
+leadRight :: [Either a b] -> ([a], [(b, [a])])
+
+leadRight = f
+  where
+    f xs = (unledItems, ledGroups)
+      where
+        (unledItems, ysMaybe) = spanLeft' xs
+        ledGroups = case ysMaybe of
+            Nothing            ->  []
+            Just (leader, ys)  ->  r leader ys
+
+    r leader xs = firstGroup : moreGroups
+      where
+        firstGroup = (leader, followers)
+        (followers, ysMaybe) = spanLeft' xs
+        moreGroups = case ysMaybe of
+            Nothing             ->  []
+            Just (leader', ys)  ->  r leader' ys
+
+-- |
+-- >>> leadRight' 'z' [Left 1, Left 2, Right 'a', Left 3, Left 4, Right 'b', Left 5, Left 6]
+-- [('z',[1,2]),('a',[3,4]),('b',[5,6])]
+--
+-- >>> leadRight' 'z' [Right 'a', Left 3, Left 4, Right 'b', Right 'c', Left 5, Left 6]
+-- [('a',[3,4]),('b',[]),('c',[5,6])]
+
+leadRight' ::
+    b -- ^ Leader to use for the first group in case the list does not begin with a 'Right'.
+    -> [Either a b] -> [(b, [a])]
+
+leadRight' leader xs = addMissingLeader leader (leadRight xs)
+
+addMissingLeader :: a -> ([b], [(a, [b])]) -> [(a, [b])]
+
+addMissingLeader _      ( []         , groups ) =                        groups
+addMissingLeader leader ( unledIntro , groups ) = (leader, unledIntro) : groups
 
 -- |
 -- >>> spanLeft [Left 1, Left 2, Right 'a', Left 3, Right 'b', Right 'c']

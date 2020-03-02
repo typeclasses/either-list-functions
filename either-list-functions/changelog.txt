@@ -1,5 +1,11 @@
 unreleased
-  - Added spanLeft' and spanRight' functions
+  - Added functions:
+      - spanLeft'
+      - spanRight'
+      - leadLeft
+      - leadLeft'
+      - leadRight
+      - leadRight'
 
 0.0.2.0
   - Supports base-4.12
