@@ -1,17 +1,27 @@
 {-# LANGUAGE BlockArguments, LambdaCase, NoImplicitPrelude #-}
 
-module Data.List.EitherFunctions (
+-- | Functions involving lists of 'Either'.
+
+module Data.List.EitherFunctions
+  (
+
     {- * Map       -}  partlyMap,
     {- * Group     -}  groupEither,
     {- * Partition -}  partition,
     {- * Span      -}  spanLeft, spanLeft', spanRight, spanRight',
-    {- * Lead      -}  leadLeft, leadLeft', leadRight, leadRight'
+    {- * Lead      -}  leadLeft, leadLeft', leadRight, leadRight',
+    {- * Branch    -}  branchLeft, branchRight, BranchComparison
+
   ) where
 
-import Data.Either   ( Either (..) )
-import Data.Function ( fix )
-import Data.List     ( map )
-import Data.Maybe    ( Maybe (..), maybe )
+import Data.Bool                   ( Bool (..) )
+import Data.Either                 ( Either (..) )
+import Data.Function               ( fix )
+import Data.Functor.Contravariant  ( Comparison (..), contramap )
+import Data.List                   ( foldr, map, span )
+import Data.Tree                   ( Tree (..), Forest )
+import Data.Maybe                  ( Maybe (..), maybe )
+import Data.Ord                    ( Ordering (..) )
 
 -- |
 -- >>> import Prelude (even, show)
@@ -191,3 +201,85 @@ partition = fix \r -> \case
     []            ->  ( []     , []     )
     Left  a : xs  ->  ( a : as , bs     )  where (as, bs) = r xs
     Right b : xs  ->  ( as     , b : bs )  where (as, bs) = r xs
+
+-- | The relative significance of branches (greater values are closer to the root).
+type BranchComparison a = Comparison a
+
+-- |
+-- >>> import Prelude
+--
+-- >>> heading level title = Left (level, title)
+-- >>> chapter = heading 1
+-- >>> section = heading 2
+-- >>> p text = Right text
+--
+-- >>> :{
+-- >>> list =
+-- >>>     [ p "Copyright"
+-- >>>     , p "Preface"
+-- >>>     , chapter "Animals"
+-- >>>     , p "The kingdom animalia"
+-- >>>     , section "Vertibrates"
+-- >>>     , p "Cats"
+-- >>>     , p "Snakes"
+-- >>>     , section "Invertibrates"
+-- >>>     , p "Worms"
+-- >>>     , p "Jellyfishes"
+-- >>>     , chapter "Fungus"
+-- >>>     , p "Yeast"
+-- >>>     , p "Truffles"
+-- >>>     , p "Morels"
+-- >>>     ]
+-- >>> :}
+--
+-- >>> import Data.Functor.Contravariant
+-- >>> flipComparison (Comparison f) = Comparison (flip f)
+-- >>> headingComparison = contramap fst (flipComparison defaultComparison)
+--
+-- >>> (frontMatter, mainMatter) = branchLeft headingComparison list
+--
+-- >>> frontMatter
+-- ["Copyright","Preface"]
+--
+-- >>> import Data.List
+-- >>> showContent ((_, x), ys) = x ++ ": " ++ intercalate ", " ys
+--
+-- >>> import Data.Tree
+-- >>> putStrLn $ drawForest $ map (fmap showContent) mainMatter
+-- Animals: The kingdom animalia
+-- |
+-- +- Vertibrates: Cats, Snakes
+-- |
+-- `- Invertibrates: Worms, Jellyfishes
+-- <BLANKLINE>
+-- Fungus: Yeast, Truffles, Morels
+-- <BLANKLINE>
+-- <BLANKLINE>
+
+branchLeft :: BranchComparison a -> [Either a b] -> ([b], Forest (a, [b]))
+
+branchLeft c xs = (rejects, forest)
+  where
+    (rejects, nodes) = leadLeft xs
+    forest = makeForest c' nodes
+    c' = contramap (\(x, _) -> x) c
+
+-- | Same as 'branchLeft', but with the types flipped; here, 'Right' is the case that indicates a branch.
+
+branchRight :: BranchComparison b -> [Either a b] -> ([a], Forest (b, [a]))
+
+branchRight c xs = (rejects, forest)
+  where
+    (rejects, nodes) = leadRight xs
+    forest = makeForest c' nodes
+    c' = contramap (\(x, _) -> x) c
+
+makeForest :: BranchComparison a -> [a] -> Forest a
+
+makeForest c = foldr f []
+  where
+    f x xs = Node x chomped : remainder
+      where
+        (chomped, remainder) = span (\(Node y _) -> x > y) xs
+
+    x > y = case getComparison c x y of GT -> True; _ -> False

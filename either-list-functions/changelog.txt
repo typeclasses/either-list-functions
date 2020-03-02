@@ -1,11 +1,14 @@
 unreleased
-  - Added functions:
+  - Added:
       - spanLeft'
       - spanRight'
       - leadLeft
       - leadLeft'
       - leadRight
       - leadRight'
+      - branchLeft
+      - branchRight
+      - BranchComparison
 
 0.0.2.0
   - Supports base-4.12
