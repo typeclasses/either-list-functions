@@ -20,6 +20,8 @@ cabal-version: >= 1.10
 extra-source-files:
   changelog.txt
 
+tested-with: GHC == 8.8.1, GHC == 8.6.5
+
 source-repository head
   type: git
   location: https://github.com/chris-martin/either-list-functions
