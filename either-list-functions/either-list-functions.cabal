@@ -9,7 +9,7 @@ homepage:    https://github.com/chris-martin/either-list-functions
 bug-reports: https://github.com/chris-martin/either-list-functions/issues
 
 author:     Chris Martin <ch.martin@gmail.com>
-maintainer: Chris Martin <ch.martin@gmail.com>
+maintainer: Chris Martin, Julie Moronuki
 
 license: Apache-2.0
 license-file: license.txt
