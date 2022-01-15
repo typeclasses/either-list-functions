@@ -34,7 +34,7 @@ library
     import: base
     hs-source-dirs: src
     exposed-modules: Data.List.EitherFunctions
-    build-depends: containers < 0.7
+    build-depends: containers ^>= 0.5.7 || ^>= 0.6
 
 test-suite doctest
     import: base
