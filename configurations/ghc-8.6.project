@@ -2,5 +2,4 @@ packages: either-list-functions
 
 constraints:
     base ^>= 4.12
-  , containers ^>= 0.5.7
   , doctest ^>= 0.16
