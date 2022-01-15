@@ -25,20 +25,22 @@ source-repository head
     type: git
     location: https://github.com/typeclasses/either-list-functions
 
-library
+common base
     default-language: Haskell2010
-    hs-source-dirs: src
     ghc-options: -Wall
-    exposed-modules: Data.List.EitherFunctions
     build-depends: base ^>=4.12 || ^>=4.13 || ^>=4.14 || ^>=4.15
+
+library
+    import: base
+    hs-source-dirs: src
+    exposed-modules: Data.List.EitherFunctions
     build-depends: containers <0.7
 
 test-suite doctest
-    default-language: Haskell2010
+    import: base
     type: exitcode-stdio-1.0
     main-is: doctest.hs
-    ghc-options: -Wall -threaded
+    ghc-options: -threaded
     hs-source-dirs: test
-    build-depends: base ^>=4.12 || ^>=4.13 || ^>=4.14 || ^>=4.15
     build-depends: either-list-functions
     build-depends: doctest
