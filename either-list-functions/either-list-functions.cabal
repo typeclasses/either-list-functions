@@ -21,8 +21,6 @@ build-type: Simple
 extra-source-files:
   changelog.txt
 
-tested-with: GHC == 9.0.1, GHC == 8.10.1, GHC == 8.8.1, GHC == 8.6.5
-
 source-repository head
   type: git
   location: https://github.com/typeclasses/either-list-functions
