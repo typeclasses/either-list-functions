@@ -2,3 +2,4 @@ packages: either-list-functions
 
 constraints:
     base ^>= 4.12
+  , doctest ^>= 0.16
