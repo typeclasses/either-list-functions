@@ -1,5 +1,0 @@
-packages: either-list-functions
-
-constraints:
-    base ^>= 4.16
-  , doctest ^>= 0.20
