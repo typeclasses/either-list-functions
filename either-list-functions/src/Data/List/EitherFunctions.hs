@@ -219,10 +219,10 @@ type BranchComparison a = Comparison a
 -- >>>     , p "Preface"
 -- >>>     , chapter "Animals"
 -- >>>     , p "The kingdom animalia"
--- >>>     , section "Vertibrates"
+-- >>>     , section "Vertebrates"
 -- >>>     , p "Cats"
 -- >>>     , p "Snakes"
--- >>>     , section "Invertibrates"
+-- >>>     , section "Invertebrates"
 -- >>>     , p "Worms"
 -- >>>     , p "Jellyfishes"
 -- >>>     , chapter "Fungus"
@@ -248,9 +248,9 @@ type BranchComparison a = Comparison a
 -- >>> putStrLn $ drawForest $ map (fmap showContent) mainMatter
 -- Animals: The kingdom animalia
 -- |
--- +- Vertibrates: Cats, Snakes
+-- +- Vertebrates: Cats, Snakes
 -- |
--- `- Invertibrates: Worms, Jellyfishes
+-- `- Invertebrates: Worms, Jellyfishes
 -- <BLANKLINE>
 -- Fungus: Yeast, Truffles, Morels
 -- <BLANKLINE>
