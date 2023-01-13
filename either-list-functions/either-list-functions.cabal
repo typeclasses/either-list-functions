@@ -16,8 +16,6 @@ maintainer: Chris Martin, Julie Moronuki
 license: Apache-2.0
 license-file: license.txt
 
-build-type: Simple
-
 extra-source-files:
     changelog.txt
 
