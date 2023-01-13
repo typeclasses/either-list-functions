@@ -1,7 +1,7 @@
 cabal-version: 3.0
 
 name:     either-list-functions
-version:  0.0.4.6
+version:  0.0.4.7
 category: Data
 synopsis: Functions involving lists of Either
 
@@ -26,7 +26,7 @@ common base
     default-language: Haskell2010
     ghc-options: -Wall
     build-depends:
-      , base ^>= 4.12 || ^>= 4.13 || ^>= 4.14 || ^>= 4.15 || ^>= 4.16
+      , base ^>= 4.12 || ^>= 4.13 || ^>= 4.14 || ^>= 4.15 || ^>= 4.16 || ^>= 4.17
 
 library
     import: base

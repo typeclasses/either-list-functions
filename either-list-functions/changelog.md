@@ -1,3 +1,7 @@
+### 0.0.4.7
+
+Supports base-4.17 and GHC 9.4
+
 ### 0.0.4.6
 
 Supports base-4.16 and GHC 9.2
