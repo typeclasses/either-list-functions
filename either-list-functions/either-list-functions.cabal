@@ -16,8 +16,7 @@ maintainer: Chris Martin, Julie Moronuki
 license: Apache-2.0
 license-file: license.txt
 
-extra-source-files:
-    changelog.txt
+extra-source-files: *.md
 
 source-repository head
     type: git
